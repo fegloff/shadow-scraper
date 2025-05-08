@@ -42,9 +42,9 @@ export const getEulerInfo = async (
       .toString()
     const rewardValue0 = rewardAmount0
 
-    let rewardAsset1 = ''
-    let rewardAmount1 = ''
-    let rewardValue1 = ''
+    let rewardAsset1 = '0'
+    let rewardAmount1 = '0'
+    let rewardValue1 = '0'
     const merklRewards = await getEulerMerklRewards(walletAddress)
     if(merklRewards.length > 0) {
       const [baseReward] = merklRewards
@@ -58,7 +58,6 @@ export const getEulerInfo = async (
 
     const currentBlockNumber = await provider.getBlockNumber()
     const depositBlockNumber = firstDeposit ? firstDeposit.blockNumber : '0'
-
     const portfolioItem: PortfolioItem = {
       ...portfolioItemFactory(),
       type: 'Swap pool',
