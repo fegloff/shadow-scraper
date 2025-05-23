@@ -42,6 +42,19 @@ const vaultArray = [
   },
 ];
 
+
+/**
+* Beets (Balancer on Sonic) is a decentralized exchange and liquidity protocol where users 
+* provide liquidity to pools and earn trading fees plus additional rewards. In v2, users 
+* receive BPT (Balancer Pool Tokens) and can stake them in gauges to earn BEETS token rewards. 
+* In v3, users deposit into yield-bearing token pools that automatically compound through 
+* rate providers connected to underlying protocols like Avalon.
+* 
+* V2 rewards come from trading fees plus BEETS emissions distributed via gauge voting.
+* V3 rewards come from the appreciation of yield-bearing tokens (like wrapped staking tokens)
+* where the rate provider tracks the increasing exchange rate to underlying assets.
+* APR is calculated based on trading fees, token emissions (v2), or yield token appreciation (v3).
+*/
 export const getBeetsInfo = async (walletAddress: string) => {
   const portfolioItems: PortfolioItem[] = [];
   const formattedWalletAddress = ethers.getAddress(walletAddress);
