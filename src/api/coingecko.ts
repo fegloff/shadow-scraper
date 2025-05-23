@@ -13,10 +13,12 @@ export const CoinGeckoTokenIdsMap: Record<string, string> = {
   'pendle': 'pendle',
   'wbtc': 'wrapped-bitcoin',
   'scbtc': 'rings-scbtc', // for beets 'scbtc': 'wrapped-bitcoin'
-  'solvbtc': 'solv-btc',
   'lbtc': 'lombard-staked-btc',
-  'xsolvbtc': 'solv-protocol-solvbtc-bbn',
   'beets': 'beets',
+  'wasonicsolvbtcbbn': 'solv-protocol-staked-btc',
+  'wasonicsolvbtc' : 'solv-protocol-btc',
+  'solvbtc': 'solv-btc',
+  'xsolvbtc': 'solv-protocol-solvbtc-bbn',
   'gems': 'gems' // https://web3.okx.com/token/sonic/0x5555b2733602ded58d47b8d3d989e631cbee5555
 }
 
@@ -33,8 +35,10 @@ export const CoinGeckoRates: Record<string, number> = {
   'frax-usd': 1,
   'weth': 2298.87,
   'pendle': 3.80,
-  'wrapped-bitcoin': 108949,
-  'rings-scbtc': 108949,
+  'wrapped-bitcoin': 103637.04,
+  'rings-scbtc': 103637.04,
+  'solv-protocol-staked-btc': 110388.000000, //found on coingecko site but not api
+  'solv-protocol-btc': 111139.0000,  //found on coingecko site but not api
   'lombard-staked-btc': 108949,
   'gems': 32.52,
   'solv-protocol-solvbtc-bbn': 111637.53,
@@ -51,6 +55,12 @@ export const CoinGeckoHistoricalRates: Record<string, Record<string, number>> = 
     '16-05-2025': 103515.8513815589,
     '15-05-2025': 103102.080844769
   },
+  'solv-protocol-staked-btc': {
+    '22-05-2025': 110388.000000
+  },
+   'solv-protocol-btc': {
+    '22-05-2025': 111139.0000
+  }
 };
 
 interface CoinGeckoPriceResponse {

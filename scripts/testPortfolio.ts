@@ -6,7 +6,9 @@ import { getShadowInfo } from "../src/portfolio-tracker/shadow";
 import { getSiloInfo } from "../src/portfolio-tracker/silo";
 import { getSwapXInfo } from "../src/portfolio-tracker/swapx";
 import { getPendleInfo } from "../src/portfolio-tracker/pendle";
-import {getVFatInfo} from "../src/portfolio-tracker/vfat";
+import { getVFatInfo } from "../src/portfolio-tracker/vfat";
+import { getBeetsInfo } from "../src/portfolio-tracker/beets";
+import { getBeefyInfo } from "../src/portfolio-tracker/beefy";
 
 const functionMap: Record<string, (wallet: string) => Promise<any>> = {
   spectra: getSpectraInfo,
@@ -16,7 +18,9 @@ const functionMap: Record<string, (wallet: string) => Promise<any>> = {
   silo: getSiloInfo,
   swapx: getSwapXInfo,
   pendle: getPendleInfo,
-  vfat: getVFatInfo
+  vfat: getVFatInfo,
+  beets: getBeetsInfo,
+  beefy: getBeefyInfo
 };
 
 // Change here
