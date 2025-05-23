@@ -17,15 +17,16 @@ export const CoinGeckoTokenIdsMap: Record<string, string> = {
   'beets': 'beets',
   'wasonicsolvbtcbbn': 'solv-protocol-staked-btc',
   'wasonicsolvbtc' : 'solv-protocol-btc'
+  'gems': 'gems' // https://web3.okx.com/token/sonic/0x5555b2733602ded58d47b8d3d989e631cbee5555
 }
 
 // hardcode values for test purposes
 export const CoinGeckoRates: Record<string, number> = {
   'swapx-2': 0.1329,
-  'shadow-2': 56.58,
-  'shadow-liquid-staking-token': 44.12,
-  'wrapped-sonic': 0.5905,
-  'sonic': 0.5905,
+  'shadow-2': 55.84,
+  'shadow-liquid-staking-token': 49.01,
+  'wrapped-sonic': 0.4952,
+  'sonic': 0.4952,
   'sonic-bridged-usdc-e-sonic': 1,
   'rings-scusd': 1,
   'tether': 1,
@@ -36,6 +37,8 @@ export const CoinGeckoRates: Record<string, number> = {
   'rings-scbtc': 103637.04,
   'solv-protocol-staked-btc': 110388.000000, //found on coingecko site but not api
   'solv-protocol-btc': 111139.0000  //found on coingecko site but not api
+  'lombard-staked-btc': 108949,
+  'gems': 32.52
 }
 
 // hardcoded historical rates

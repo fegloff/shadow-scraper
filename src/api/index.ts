@@ -1,6 +1,13 @@
 import axios from "axios";
-import {getBurnsQuery, getGaugeRewardClaimsQuery, getMintsQuery, getPositionsQuery, getSwapsQuery} from "./query";
-import {ClBurn, ClMint, ClPosition, ClSwap, GaugeRewardClaim} from "../types";
+import {
+  getBurnsQuery,
+  getClPositionMints,
+  getGaugeRewardClaimsQuery,
+  getMintsQuery,
+  getPositionsQuery,
+  getSwapsQuery
+} from "./query";
+import {ClBurn, ClMint, ClPosition, ClPositionMint, ClSwap, GaugeRewardClaim} from "../types";
 import {appConfig} from "../config";
 import 'dotenv/config'
 
@@ -84,6 +91,17 @@ export const getGaugeRewardClaims = async (params: GetEventsParams) => {
     query: getGaugeRewardClaimsQuery(params)
   })
   return data.data.gaugeRewardClaims
+}
+
+export const getPositionMints = async (params: GetEventsParams) => {
+  const { data } = await client.post<{
+    data: {
+      clPositionMints: ClPositionMint[]
+    }
+  }>('/', {
+    query: getClPositionMints(params)
+  })
+  return data.data.clPositionMints
 }
 
 const swapXSubgraphClient = axios.create({
