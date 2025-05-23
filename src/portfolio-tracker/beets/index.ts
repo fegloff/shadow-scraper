@@ -129,6 +129,7 @@ export const getBeetsInfo = async (walletAddress: string) => {
         userLiquidityInfo.poolShares &&
         +userLiquidityInfo.poolShares[0].balance > 0
       ) {
+        // unstaked
         const share = userLiquidityInfo.poolShares[0];
 
         const pool = share.pool;
@@ -180,6 +181,7 @@ export const getBeetsInfo = async (walletAddress: string) => {
           daysElapsed
         );
       } else {
+        // staked
         staked = true;
 
         const result = await getUserGaugeRewards(
