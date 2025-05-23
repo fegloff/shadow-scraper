@@ -186,7 +186,7 @@ export const getVFatInfo = async (walletAddress: string) => {
         ...portfolioItemFactory(),
         type: `Swap pool`,
         name: 'vfat',
-        address: pool.id,
+        address: gaugeAddress,
         depositTime: moment(launchTimestamp).format('YY/MM/DD HH:MM:SS'),
         depositAsset0: position.pool.token0.symbol,
         depositAsset1: position.pool.token1.symbol,
@@ -206,7 +206,7 @@ export const getVFatInfo = async (walletAddress: string) => {
         rewardValue: roundToSignificantDigits(rewardsTotalValue),
         totalDays: calculateDaysDifference(new Date(launchTimestamp), new Date(), 4),
         totalBlocks: (currentBlockNumber - Number(position.transaction.blockNumber)).toString(),
-        depositLink: `https://vfat.io/farm?chainId=146&farmAddress=${position.pool.id}&poolId=0`
+        depositLink: `https://vfat.io/farm?chainId=146&farmAddress=${gaugeAddress}&poolId=0`
       }
 
       apr = calculateAPR(
