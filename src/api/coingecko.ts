@@ -16,7 +16,7 @@ export const CoinGeckoTokenIdsMap: Record<string, string> = {
   'lbtc': 'lombard-staked-btc',
   'beets': 'beets',
   'wasonicsolvbtcbbn': 'solv-protocol-staked-btc',
-  'wasonicsolvbtc' : 'solv-protocol-btc'
+  'wasonicsolvbtc' : 'solv-protocol-btc',
   'gems': 'gems' // https://web3.okx.com/token/sonic/0x5555b2733602ded58d47b8d3d989e631cbee5555
 }
 
@@ -36,7 +36,7 @@ export const CoinGeckoRates: Record<string, number> = {
   'wrapped-bitcoin': 103637.04,
   'rings-scbtc': 103637.04,
   'solv-protocol-staked-btc': 110388.000000, //found on coingecko site but not api
-  'solv-protocol-btc': 111139.0000  //found on coingecko site but not api
+  'solv-protocol-btc': 111139.0000,  //found on coingecko site but not api
   'lombard-staked-btc': 108949,
   'gems': 32.52
 }
