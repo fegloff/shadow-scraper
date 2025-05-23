@@ -1,13 +1,5 @@
 import axios from "axios";
 
-const client = axios.create({
-  baseURL: 'https://api.studio.thegraph.com/query/108274/silofinance/version/latest',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${process.env.SUBGRAPH_API_KEY}`
-  }
-})
-
 export interface SiloDepositEvent {
   id: string
   blockNumber: string
@@ -19,22 +11,21 @@ export interface SiloDepositEvent {
 }
 
 export const getSiloDeposits = async (
-  owner: string
+  owner: string,
+  subgraphUrl: string
 ) => {
-  const { data } = await client.post<{
+  const { data } = await axios.post<{
     data: {
       deposits: SiloDepositEvent[]
     }
-  }>('/', {
+  }>(subgraphUrl, {
     query: `
       {
         deposits(
           first: 1000,
-          where: {
-            owner: "${owner}"
-          },
-          orderBy:blockNumber,
-          orderDirection:desc
+          where: { owner: "${owner}" }
+          orderBy: blockNumber
+          orderDirection: desc
         ) {
           id
           blockNumber
@@ -44,9 +35,14 @@ export const getSiloDeposits = async (
           assets
           shares
         }
-    }
+      }
     `
-  })
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.SUBGRAPH_API_KEY}`
+    }
+  });
 
-  return data.data.deposits
-}
+  return data.data.deposits;
+};

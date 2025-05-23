@@ -13,7 +13,9 @@ export const CoinGeckoTokenIdsMap: Record<string, string> = {
   'pendle': 'pendle',
   'wbtc': 'wrapped-bitcoin',
   'scbtc': 'rings-scbtc', // for beets 'scbtc': 'wrapped-bitcoin'
+  'solvbtc': 'solv-btc',
   'lbtc': 'lombard-staked-btc',
+  'xsolvbtc': 'solv-protocol-solvbtc-bbn',
   'beets': 'beets',
   'gems': 'gems' // https://web3.okx.com/token/sonic/0x5555b2733602ded58d47b8d3d989e631cbee5555
 }
@@ -34,7 +36,9 @@ export const CoinGeckoRates: Record<string, number> = {
   'wrapped-bitcoin': 108949,
   'rings-scbtc': 108949,
   'lombard-staked-btc': 108949,
-  'gems': 32.52
+  'gems': 32.52,
+  'solv-protocol-solvbtc-bbn': 111637.53,
+  'solv-btc': 111590.65,
 }
 
 // hardcoded historical rates
