@@ -14,7 +14,9 @@ export const CoinGeckoTokenIdsMap: Record<string, string> = {
   'wbtc': 'wrapped-bitcoin',
   'scbtc': 'rings-scbtc', // for beets 'scbtc': 'wrapped-bitcoin'
   'lbtc': 'lombard-staked-btc',
-  'beets': 'beets'
+  'beets': 'beets',
+  'wasonicsolvbtcbbn': 'solv-protocol-staked-btc',
+  'wasonicsolvbtc' : 'solv-protocol-btc'
 }
 
 // hardcode values for test purposes
@@ -32,6 +34,8 @@ export const CoinGeckoRates: Record<string, number> = {
   'pendle': 3.80,
   'wrapped-bitcoin': 103637.04,
   'rings-scbtc': 103637.04,
+  'solv-protocol-staked-btc': 110388.000000, //found on coingecko site but not api
+  'solv-protocol-btc': 111139.0000  //found on coingecko site but not api
 }
 
 // hardcoded historical rates
@@ -44,6 +48,12 @@ export const CoinGeckoHistoricalRates: Record<string, Record<string, number>> = 
     '16-05-2025': 103515.8513815589,
     '15-05-2025': 103102.080844769
   },
+  'solv-protocol-staked-btc': {
+    '22-05-2025': 110388.000000
+  },
+   'solv-protocol-btc': {
+    '22-05-2025': 111139.0000
+  }
 };
 
 interface CoinGeckoPriceResponse {
