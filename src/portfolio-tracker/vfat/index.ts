@@ -124,17 +124,17 @@ export const getVFatInfo = async (walletAddress: string) => {
       const gaugeAddress = mint.pool.gaugeV2.id
       const gauge = new ethers.Contract(gaugeAddress, GaugeV3ABI, provider);
 
-      const rewardClaims = await getGaugeRewardClaims({
-        filter: {
-          transaction_from: walletAddress,
-          gauge_isAlive: true
-        },
-        first: 5,
-        sort: {
-          orderBy: 'transaction__blockNumber',
-          orderDirection: 'desc'
-        }
-      })
+      // const rewardClaims = await getGaugeRewardClaims({
+      //   filter: {
+      //     transaction_from: walletAddress,
+      //     gauge_isAlive: true
+      //   },
+      //   first: 5,
+      //   sort: {
+      //     orderBy: 'transaction__blockNumber',
+      //     orderDirection: 'desc'
+      //   }
+      // })
 
       const rewardTokens = await gauge.getRewardTokens() as string[]
       for (const rewardAddress of rewardTokens) {
@@ -185,7 +185,7 @@ export const getVFatInfo = async (walletAddress: string) => {
       const portfolioItem: PortfolioItem = {
         ...portfolioItemFactory(),
         type: `Swap pool`,
-        name: 'shadow',
+        name: 'vfat',
         address: pool.id,
         depositTime: moment(launchTimestamp).format('YY/MM/DD HH:MM:SS'),
         depositAsset0: position.pool.token0.symbol,
@@ -206,7 +206,7 @@ export const getVFatInfo = async (walletAddress: string) => {
         rewardValue: roundToSignificantDigits(rewardsTotalValue),
         totalDays: calculateDaysDifference(new Date(launchTimestamp), new Date(), 4),
         totalBlocks: (currentBlockNumber - Number(position.transaction.blockNumber)).toString(),
-        depositLink: `https://www.shadow.so/liquidity/${pool.id}`
+        depositLink: `https://vfat.io/farm?chainId=146&farmAddress=${position.pool.id}&poolId=0`
       }
 
       apr = calculateAPR(
@@ -233,5 +233,5 @@ export const getVFatInfo = async (walletAddress: string) => {
     }
   }
 
-  return []
+  return portfolioItems
 }

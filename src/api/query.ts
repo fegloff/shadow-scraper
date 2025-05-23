@@ -318,6 +318,7 @@ export const getClPositionMints = (params: GetEventsParams) => {
         token1 { id symbol decimals }
         transaction { id from to blockNumber timestamp }
         pool {
+          id
           symbol
           token0 { id symbol decimals }
           token1 { id symbol decimals }
@@ -326,6 +327,7 @@ export const getClPositionMints = (params: GetEventsParams) => {
       }
       liquidity
       pool {
+        id
         symbol
         token0 { id symbol decimals }
         token1 { id symbol decimals }
