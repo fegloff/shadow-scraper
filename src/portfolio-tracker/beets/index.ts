@@ -75,6 +75,10 @@ export const getBeetsInfo = async (walletAddress: string) => {
     let apr = 0;
     let staked = false;
 
+    if (!initialDeposit) {
+      return;
+    }
+   
     const firstDepositTimestamp = new Date(
       initialDeposit?.timestamp * 1000
     ).toISOString();
@@ -87,9 +91,6 @@ export const getBeetsInfo = async (walletAddress: string) => {
 
     const currentTokenBalances: any[] = [];
 
-    if (!initialDeposit) {
-      return;
-    }
     // return
     // Process tokens
     const tokensDepositedPromises = initialDeposit.amounts
