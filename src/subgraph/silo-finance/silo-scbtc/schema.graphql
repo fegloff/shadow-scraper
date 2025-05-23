@@ -1,0 +1,10 @@
+type Deposit @entity(immutable: true) {
+  id: Bytes!
+  sender: Bytes!
+  owner: Bytes!
+  assets: BigInt!
+  shares: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

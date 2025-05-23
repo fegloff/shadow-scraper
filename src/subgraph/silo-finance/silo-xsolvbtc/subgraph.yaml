@@ -1,0 +1,26 @@
+specVersion: 1.2.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: SiloxSolvBTCVault
+    network: sonic
+    source:
+      address: "0x52Fc9E0a68b6a4C9b57b9D1d99fB71449A99DCd8"
+      abi: Silo
+      startBlock: 4988524
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Deposit
+      abis:
+        - name: Silo
+          file: ./abis/Silo.json
+      eventHandlers:
+        - event: Deposit(indexed address,indexed address,uint256,uint256)
+          handler: handleDeposit
+      file: ./src/silo.ts

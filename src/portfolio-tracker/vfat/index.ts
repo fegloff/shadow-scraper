@@ -95,7 +95,7 @@ export const getVFatInfo = async (walletAddress: string) => {
       ]
 
       const unclaimedRewards: PositionReward[] = []
-      const claimedRewards: PositionReward[] = []
+      // const claimedRewards: PositionReward[] = []
 
       if(liquidity <= 0n) {
         continue
@@ -142,15 +142,14 @@ export const getVFatInfo = async (walletAddress: string) => {
         const rewardContract = new ethers.Contract(rewardAddress, ERC20ABI, provider);
         const rewardSymbol = await rewardContract.symbol();
 
-        const claimedReward = await getClaimedRewardBySymbol(position, rewardClaims, rewardSymbol)
-        claimedRewards.push(claimedReward)
+        // const claimedReward = await getClaimedRewardBySymbol(position, rewardClaims, rewardSymbol)
+        // claimedRewards.push(claimedReward)
 
         if(earned > 0n) {
           let price = 0
           const symbol = rewardSymbol.toLowerCase();
           const exchangeTokenId = CoinGeckoTokenIdsMap[symbol];
 
-          // Ignore GEMS rewards for now
           if(exchangeTokenId) {
             price = await getTokenPrice(exchangeTokenId)
           } else if(symbol === 'xshadow') {
@@ -159,11 +158,13 @@ export const getVFatInfo = async (walletAddress: string) => {
             price = await getTokenPrice(symbol, true);
           }
 
-          // console.log('reward', rewardSymbol, rewardAddress, 'earned', earned, 'price', price);
-
           if(price > 0) {
             const decimals = Number(await rewardContract.decimals())
             const amount = new Decimal(earned.toString()).div(Math.pow(10, decimals))
+
+            console.log('reward', rewardSymbol, rewardAddress, 'amount', amount);
+
+
             const value = amount.mul(price)
             unclaimedRewards.push({
               asset: rewardSymbol,

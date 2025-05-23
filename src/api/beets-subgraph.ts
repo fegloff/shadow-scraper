@@ -27,6 +27,7 @@ async function getUserLiquidityInfoV2(
   userAddress: string,
   poolId: string
 ): Promise<LiquidityInfo> {
+
   const subgraphQuery = `
   {
     poolShares(where: {
@@ -77,6 +78,7 @@ async function getUserLiquidityInfoV2(
 
   const response = await balancerV2Client.post("", { query: subgraphQuery });
 
+
   if (response.data.errors) {
     console.error("GraphQL errors:", response.data.errors);
     throw new Error(
@@ -88,7 +90,6 @@ async function getUserLiquidityInfoV2(
     console.error("No data returned from the GraphQL query");
     throw new Error("No data returned from the GraphQL query");
   }
-
   return {
     poolShares: response.data.data.poolShares.map((share: any) => ({
       id: share.id,
@@ -247,7 +248,6 @@ export async function getTokenPrices(
     console.error("No data returned from the GraphQL query");
     throw new Error("No data returned from the GraphQL query");
   }
-
   return response.data.data.tokenPrices;
 }
 

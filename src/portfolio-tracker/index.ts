@@ -12,6 +12,7 @@ import {getBeefyInfo} from './beefy';
 import {PortfolioItem} from "./types";
 import {getEquilibriaInfo} from "./equilibria";
 import moment from "moment/moment";
+import {getVFatInfo} from "./vfat";
 
 // const userAddress = '0x4E430992Db6F3BdDbC6A50d1513845f087E9af4A'
 
@@ -43,8 +44,10 @@ const main = async () => {
       siloInfo,
       eulerInfo,
       spectraInfo,
-      // beefyInfo,
-      eqInfo
+      beefyInfo,
+      eqInfo,
+      vfatInfo
+
     ] = await Promise.all([
       getShadowInfo(userAddress),
       getSwapXInfo(userAddress),
@@ -52,8 +55,9 @@ const main = async () => {
       getSiloInfo(userAddress),
       getEulerInfo(userAddress),
       getSpectraInfo(userAddress),
-      // getBeefyInfo(userAddress),
-      getEquilibriaInfo(userAddress)
+      getBeefyInfo(userAddress),
+      getEquilibriaInfo(userAddress),
+      getVFatInfo(userAddress),
     ])
 
     const exchangesTsv = arrayToTSV([
@@ -63,8 +67,9 @@ const main = async () => {
       ...siloInfo,
       ...eulerInfo,
       ...spectraInfo,
-      // ...beefyInfo,
-      ...eqInfo
+      ...beefyInfo,
+      ...eqInfo,
+      ...vfatInfo
     ] as PortfolioItem[])
 
     const tsv = txsTsv + exchangesTsv

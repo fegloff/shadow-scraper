@@ -83,7 +83,6 @@ const RATE_PROVIDER_ABI = [
   }
 ];
 
-
 export async function getUserGaugeRewards(
   gaugeAddress: string,
   userAddress: string

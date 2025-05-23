@@ -66,6 +66,7 @@ export const getBeetsInfo = async (walletAddress: string) => {
     );
     const initialDeposit = userLiquidityInfo.deposits[0];
 
+
     let currentBptPrice = 0;
     let currentPositionValue = 0;
     let totalDepositValue = 0;
@@ -74,15 +75,16 @@ export const getBeetsInfo = async (walletAddress: string) => {
     let totalRewards = 0;
     let apr = 0;
     let staked = false;
-
+    
     if (!initialDeposit) {
       return;
     }
-   
+
     const firstDepositTimestamp = new Date(
       initialDeposit?.timestamp * 1000
     ).toISOString();
     const currentBlockNumber = await provider.getBlockNumber();
+
     const totalBlocks = currentBlockNumber - +initialDeposit.blockNumber;
     const depositDate = new Date(firstDepositTimestamp);
     const currentDate = new Date();
@@ -91,7 +93,6 @@ export const getBeetsInfo = async (walletAddress: string) => {
 
     const currentTokenBalances: any[] = [];
 
-    // return
     // Process tokens
     const tokensDepositedPromises = initialDeposit.amounts
       .map(async (amount: string, index: number) => {
@@ -228,7 +229,6 @@ export const getBeetsInfo = async (walletAddress: string) => {
           ? calculateAPR(totalDepositValue, totalRewards, daysElapsed)
           : 0;
     }
-
     const portfolioItem: PortfolioItem = {
       ...portfolioItemFactory(),
       type: vault.type,
