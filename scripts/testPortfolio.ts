@@ -5,6 +5,8 @@ import { getAddress } from "ethers";
 import { getShadowInfo } from "../src/portfolio-tracker/shadow";
 import { getSiloInfo } from "../src/portfolio-tracker/silo";
 import { getSwapXInfo } from "../src/portfolio-tracker/swapx";
+import { getPendleInfo } from "../src/portfolio-tracker/pendle";
+import {getVFatInfo} from "../src/portfolio-tracker/vfat";
 
 const functionMap: Record<string, (wallet: string) => Promise<any>> = {
   spectra: getSpectraInfo,
@@ -12,18 +14,20 @@ const functionMap: Record<string, (wallet: string) => Promise<any>> = {
   magpie: getMagpieInfo,
   shadow: getShadowInfo,
   silo: getSiloInfo,
-  swapx: getSwapXInfo
+  swapx: getSwapXInfo,
+  pendle: getPendleInfo,
+  vfat: getVFatInfo
 };
 
 // Change here
 const selectedFunction = process.argv[2] || 'euler';
-const walletAddress = getAddress("0x881E625E5C30973b47ceE3a0f3Ef456012F13f7D");
+const walletAddress = getAddress("0x4E430992Db6F3BdDbC6A50d1513845f087E9af4A");
 //
 
 (async () => {
   try {
     const targetFunction = functionMap[selectedFunction.toLowerCase()];
-    
+
     if (!targetFunction) {
       throw new Error(`Invalid function name "${selectedFunction}". Choose from: ${Object.keys(functionMap).join(", ")}`);
     }

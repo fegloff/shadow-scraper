@@ -32,23 +32,30 @@ const getClaimedRewardBySymbol = async (
     .filter((item) => {
       return item.gauge.clPool.symbol.toLowerCase() === pool.symbol.toLowerCase()
         && item.rewardToken.symbol.toLowerCase() === rewardSymbol.toLowerCase()
-        && Number(item.transaction.timestamp) > Number(position.transaction.timestamp)
+        && Number(item.transaction.timestamp) >= Number(position.transaction.timestamp)
     })
 
-  for(const reward of poolRewards) {
-    const {rewardToken, rewardAmount} = reward
-    const exchangeTokenId = CoinGeckoTokenIdsMap[rewardToken.symbol.toLowerCase()]
-    let tokenPrice = 0
-    if(rewardToken.symbol.toLowerCase() === 'xshadow') {
-      tokenPrice = (await getTokenPrice('shadow-2')) / 2
+    for (const reward of poolRewards) {
+      const { rewardToken, rewardAmount } = reward;
+      const symbol = rewardToken.symbol.toLowerCase();
+      let tokenPrice = 0;
+
+      if (symbol === 'xshadow') {
+        tokenPrice = (await getTokenPrice('shadow-2')) / 2;
+      } else {
+        const exchangeTokenId = CoinGeckoTokenIdsMap[symbol];
+        if (exchangeTokenId) {
+          tokenPrice = await getTokenPrice(exchangeTokenId);
+        } else {
+          tokenPrice = await getTokenPrice(symbol, true);
+        }
+      }
+
+      const rewardValue = Decimal(rewardAmount).mul(tokenPrice);
+      value = value.add(rewardValue);
+      amount = amount.add(new Decimal(rewardAmount));
     }
-    if(exchangeTokenId) {
-      tokenPrice = await getTokenPrice(exchangeTokenId)
-    }
-    const rewardValue = Decimal(rewardAmount).mul(tokenPrice)
-    value = value.add(rewardValue)
-    amount = amount.add(new Decimal(rewardAmount))
-  }
+
 
   return {
     asset: rewardSymbol,
@@ -121,11 +128,14 @@ export const getShadowInfo = async (
       // Unclaimed (pending) rewards (from RPC)
       if(earned > 0) {
         let price = 0
-        const exchangeTokenId = CoinGeckoTokenIdsMap[rewardSymbol.toLowerCase()]
+        const symbol = rewardSymbol.toLowerCase();
+        const exchangeTokenId = CoinGeckoTokenIdsMap[symbol];
         if(exchangeTokenId) {
           price = await getTokenPrice(exchangeTokenId)
-        } else if(rewardSymbol.toLowerCase() === 'xshadow') {
+        } else if(symbol === 'xshadow') {
           price = (await getTokenPrice('shadow-2')) / 2
+        } else {
+          price = await getTokenPrice(symbol, true);
         }
 
         if(price > 0) {
@@ -142,6 +152,19 @@ export const getShadowInfo = async (
     }
 
     const rewards = mergeRewards(claimedRewards, unclaimedRewards)
+    const usdcReward = rewards.find(r => r.asset.toLowerCase() === 'usdc.e');
+    const xshadowReward = rewards.find(r => r.asset.toLowerCase() === 'xshadow');
+    const shadowReward = rewards.find(r => r.asset.toLowerCase() === 'shadow');
+    const defaultRewards = [shadowReward, xshadowReward].filter(Boolean);
+
+    const missingRewardCount = 2 - defaultRewards.length;
+    if (missingRewardCount > 0) {
+      const remaining = rewards.filter(r => !defaultRewards.includes(r)).slice(0, missingRewardCount);
+      defaultRewards.push(...remaining);
+    }
+    const reward0 = usdcReward && xshadowReward ? usdcReward : defaultRewards[0] || { asset: '', amount: '0', value: '0' };
+    const reward1 = usdcReward && xshadowReward ? xshadowReward : defaultRewards[1] || { asset: '', amount: '0', value: '0' };
+
 
     if(totalDepositedValue > 0) {
       const currentBlockNumber = await provider.getBlockNumber()
@@ -160,14 +183,14 @@ export const getShadowInfo = async (
         depositValue: roundToSignificantDigits(
           (deposit0Value + deposit1Value).toString()
         ),
-        rewardAsset0: rewards[0].asset || '',
-        rewardAsset1: rewards[1].asset || '',
-        rewardAmount0: roundToSignificantDigits(rewards[0].amount),
-        rewardAmount1: roundToSignificantDigits(rewards[1].amount),
-        rewardValue0: roundToSignificantDigits(rewards[0].value),
-        rewardValue1: roundToSignificantDigits(rewards[1].value),
+        rewardAsset0: reward0.asset,
+        rewardAsset1: reward1.asset,
+        rewardAmount0: roundToSignificantDigits(reward0.amount),
+        rewardAmount1: roundToSignificantDigits(reward1.amount),
+        rewardValue0: roundToSignificantDigits(reward0.value),
+        rewardValue1: roundToSignificantDigits(reward1.value),
         rewardValue: roundToSignificantDigits(
-          (Number(rewards[0].value) + Number(rewards[1].value)).toString()
+          rewards.reduce((acc, r) => acc + Number(r.value), 0).toString()
         ),
         totalDays: calculateDaysDifference(new Date(launchTimestamp), new Date(), 4),
         totalBlocks: (currentBlockNumber - Number(position.transaction.blockNumber)).toString(),

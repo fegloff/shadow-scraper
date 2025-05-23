@@ -166,6 +166,18 @@ export interface ClPosition {
   feeGrowthInside1LastX128: string
 }
 
+export interface ClPositionMint {
+  id: string
+  position: ClPosition
+  transaction: Transaction
+  timestamp: string
+  pool: ClPool
+  amount0: string
+  amount1: string
+  liquidity: string
+  logIndex: string
+}
+
 export interface Gauge {
   id: string
   clPool: ClPool
