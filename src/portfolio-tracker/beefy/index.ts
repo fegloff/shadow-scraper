@@ -8,21 +8,30 @@ import { getBeefyVaultUSDValue, getPpfsPrice } from "../../api/beefy-api";
 import { calculateBeefyAPY } from "./helper";
 import { getBeefyDeposits } from "../../api/beefy-subgraph";
 
-const provider = new ethers.JsonRpcProvider("https://rpc.soniclabs.com");
+const SONIC_RPC_URL = "https://rpc.soniclabs.com";
+const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+const provider = new ethers.JsonRpcProvider(SONIC_RPC_URL);
 
 const vaultArray = [
+  // {
+  //   name: 'beefy-frxusd',
+  //   address:'0x0f61600BAE509820207827b7e3d108ceeeB23C48',
+  //   url: 'https://app.beefy.com/vault/swapx-ichi-frxusd-scusd',
+  //   type: 'vault'
+  // },
   {
-    name: 'beefy-frxusd',
-    address:'0x0f61600BAE509820207827b7e3d108ceeeB23C48',
-    url: 'https://app.beefy.com/vault/swapx-ichi-frxusd-scusd',
-    type: 'vault'
-  },
-  {
-    name: 'beefy-wbtc',
+    name: 'beefy-wbtc-usdc.e',
     address:'0x920D88cA46041eFdB317c1a4150e8f0515e88D9B',
     url: 'https://app.beefy.com/vault/shadow-cow-sonic-wbtc-usdc.e-vault',
     type: 'vault'
   },
+    {
+    name: 'beefy-wbtc-scbtc',
+    address:'0x7152bf607BD043084f265c649a09A8F90BBdBF1B',
+    url: 'https://app.beefy.com/vault/swapx-ichi-wbtc-scbtc',
+    type: 'vault'
+  },
+  
 ];
 
 /**
@@ -37,7 +46,7 @@ const vaultArray = [
 export const getBeefyInfo = async (walletAddress: string) => {
   const portfolioItems: PortfolioItem[] = [];
   const formattedWalletAddress = ethers.getAddress(walletAddress);
-
+  
   const vaultPromises = vaultArray.map(async (vault) => { 
     // Create contract instances
     const vaultContract = new ethers.Contract(vault.address, BeefyVaultABI, provider);
@@ -87,12 +96,13 @@ export const getBeefyInfo = async (walletAddress: string) => {
     // Calculate time metrics
     const depositDate = new Date(firstDepositTimestamp);
     const currentDate = new Date();
-    const daysElapsed = (currentDate.getTime() - depositDate.getTime()) / (1000 * 60 * 60 * 24);
+    const daysElapsed = (currentDate.getTime() - depositDate.getTime()) / (MILLISECONDS_PER_DAY);
     
     // Calculate performance metrics
+    
     const apr = calculateAPR(initialDepositUSD, gainUSD, daysElapsed);
     const apy = calculateBeefyAPY(currentUnderlyingTokens, initialUnderlyingTokens, firstDepositTimestamp)
-    console.log(`APY for ${vault.name} vault:`, apy)
+    console.log(`APY for ${vault.name} vault:`, apy, apr)
 
     const currentBlockNumber = await provider.getBlockNumber();
     const totalBlocks = currentBlockNumber - +firstDeposit.blockNumber;
@@ -119,7 +129,7 @@ export const getBeefyInfo = async (walletAddress: string) => {
       rewardValue: roundToSignificantDigits(`${gainUSD}`, 2),
       totalDays: roundToSignificantDigits(`${daysElapsed}`, 4),
       totalBlocks: `${totalBlocks}`,
-      apr: roundToSignificantDigits(apr.toString(), 4),
+      apr: roundToSignificantDigits(apr.toString()),
       depositLink: vault.url
     };
 
