@@ -40,6 +40,14 @@ const vaultArray = [
     type: "balancer-v3-pool",
     balancerVersion: BALANCER_VERSION.v3,
   },
+  {
+    name: `scETH/scBTC/scUSD/stS Sonic Quartet Audition`,
+    gaugeAddress: "0xDbc37b018D4d0536e624fFd3F338F218223a9b61",
+    poolId: "0xbd4a2ecdcd7acb0d2b20744ac4cc1368dd8fdc41",
+    url: "https://beets.fi/pools/sonic/v2/0xbd4a2ecdcd7acb0d2b20744ac4cc1368dd8fdc410001000000000000000000a8",
+    type: "balancer-v3-pool",
+    balancerVersion: BALANCER_VERSION.v2,
+  },
 ];
 
 
@@ -129,6 +137,7 @@ export const getBeetsInfo = async (walletAddress: string) => {
         userLiquidityInfo.poolShares &&
         +userLiquidityInfo.poolShares[0].balance > 0
       ) {
+        // unstaked
         const share = userLiquidityInfo.poolShares[0];
 
         const pool = share.pool;
@@ -180,6 +189,7 @@ export const getBeetsInfo = async (walletAddress: string) => {
           daysElapsed
         );
       } else {
+        // staked
         staked = true;
 
         const result = await getUserGaugeRewards(
