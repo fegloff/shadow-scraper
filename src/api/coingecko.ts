@@ -15,10 +15,13 @@ export const CoinGeckoTokenIdsMap: Record<string, string> = {
   'scbtc': 'rings-scbtc', // for beets 'scbtc': 'wrapped-bitcoin'
   'lbtc': 'lombard-staked-btc',
   'beets': 'beets',
-  'wasonicsolvbtcbbn': 'solv-protocol-staked-btc',
-  'wasonicsolvbtc' : 'solv-protocol-btc',
+  'wasonicsolvbtcbbn': 'solv-protocol-solvbtc-bbn',
+  'wasonicsolvbtc' : 'solv-btc',
   'solvbtc': 'solv-btc',
   'xsolvbtc': 'solv-protocol-solvbtc-bbn',
+  'sceth': 'rings-sc-eth',
+  'sts': 'beets-staked-sonic',
+  'beetsfragmentss1': 'beetsfragmentss1', // doesn't exists in coingecko
   'gems': 'gems' // https://web3.okx.com/token/sonic/0x5555b2733602ded58d47b8d3d989e631cbee5555
 }
 
@@ -36,30 +39,41 @@ export const CoinGeckoRates: Record<string, number> = {
   'weth': 2298.87,
   'pendle': 3.80,
   'wrapped-bitcoin': 103637.04,
-  'rings-scbtc': 103637.04,
-  'solv-protocol-staked-btc': 110388.000000, //found on coingecko site but not api
+  'rings-scbtc': 108313,
   'solv-protocol-btc': 111139.0000,  //found on coingecko site but not api
-  'lombard-staked-btc': 108949,
+  'lombard-staked-btc': 106963,
   'gems': 32.52,
   'solv-protocol-solvbtc-bbn': 111637.53,
   'solv-btc': 111590.65,
+  'beets-staked-sonic': 0.478688,
+  'rings-sc-eth': 2528.03,
+  'beetsfragmentss1': 0.211,
+  'beets': 0.05295
 }
 
 // hardcoded historical rates
 export const CoinGeckoHistoricalRates: Record<string, Record<string, number>> = {
   'rings-scbtc': {
+    '22-05-2025': 109353.807744479,
     '16-05-2025': 103393.983167005,
     '15-05-2025': 103331.502813178
   },
   'lombard-staked-btc': {
+    '22-05-2025': 109806.556180727,
     '16-05-2025': 103515.8513815589,
     '15-05-2025': 103102.080844769
   },
   'solv-protocol-staked-btc': {
-    '22-05-2025': 110388.000000
+    '22-05-2025': 110388.000000000
   },
-   'solv-protocol-btc': {
-    '22-05-2025': 111139.0000
+   'solv-btc': {
+    '22-05-2025': 109360.000053171
+  },
+  'beets-staked-sonic': {
+    '23-05-2025': 0.478688
+  },
+  'rings-sc-eth': {
+    '23-05-2025': 2657.34893766992
   }
 };
 

@@ -1,8 +1,10 @@
+import fs from "fs";
+import moment from "moment/moment";
 import clipboardy from 'clipboardy';
+
 import {getSwapXInfo} from "./swapx";
 import {arrayToTSV} from "../utils";
 import {getShadowInfo} from "./shadow";
-import fs from "fs";
 import {getWalletTransactionsInfo} from "./transactions-history";
 import {getMagpieInfo} from "./magpie";
 import {getSiloInfo} from "./silo";
@@ -11,7 +13,7 @@ import {getSpectraInfo} from "./spectra";
 import {getBeefyInfo} from './beefy';
 import {PortfolioItem} from "./types";
 import {getEquilibriaInfo} from "./equilibria";
-import moment from "moment/moment";
+import {getBeetsInfo} from './beets';
 import {getVFatInfo} from "./vfat";
 
 // const userAddress = '0x4E430992Db6F3BdDbC6A50d1513845f087E9af4A'
@@ -46,7 +48,8 @@ const main = async () => {
       spectraInfo,
       beefyInfo,
       eqInfo,
-      vfatInfo
+      vfatInfo,
+      beetsInfo
 
     ] = await Promise.all([
       getShadowInfo(userAddress),
@@ -58,6 +61,7 @@ const main = async () => {
       getBeefyInfo(userAddress),
       getEquilibriaInfo(userAddress),
       getVFatInfo(userAddress),
+      getBeetsInfo(userAddress)
     ])
 
     const exchangesTsv = arrayToTSV([
@@ -69,7 +73,8 @@ const main = async () => {
       ...spectraInfo,
       ...beefyInfo,
       ...eqInfo,
-      ...vfatInfo
+      ...vfatInfo,
+      ...beetsInfo
     ] as PortfolioItem[])
 
     const tsv = txsTsv + exchangesTsv

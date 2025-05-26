@@ -96,11 +96,13 @@ export async function getUserGaugeRewards(
 
   const rewardTokenPromises = [];
   for (let i = 0; i < Number(rewardCount); i++) {
+   
     rewardTokenPromises.push(gaugeContract.reward_tokens(i));
   }
   const rewardTokenAddresses = await Promise.all(rewardTokenPromises);
-
+ 
   const rewardPromises = rewardTokenAddresses.map(async (rewardTokenAddress, i) => {
+
     const tokenContract = new ethers.Contract(
       rewardTokenAddress,
       ERC20_ABI,
